@@ -39,8 +39,9 @@ namespace esphome {
                     command = readByte;
                 } else if (inMessageCount == 7) {
                     ESP_LOGD(TAG, "Parity got of: %d", readByte);
-                    ESP_LOGD(TAG, "Calculated parity of: %d", parity % 255);
-                    if (parity % 255 == readByte) {
+                    parity_calculated = parity % 255;
+		    ESP_LOGD(TAG, "Calculated parity of: %d", parity_calculated);
+		    if (parity_calculated <= readByte + 2 && parity_calculated >= readByte - 2) {
                         ESP_LOGD(TAG, "Parity is correct. Executing!");
                         switch (command) {
                             case 0x01:
